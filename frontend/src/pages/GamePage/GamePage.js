@@ -53,6 +53,7 @@ export function GamePage() {
   const [ state, dispatch ] = useReducer(reducer, {
     moves: game.moves,
     canMove: checkMove(user, isFirst, game.moves, game),
+    completed: false,
   });
   const { moves, canMove, completed } = state;
 
