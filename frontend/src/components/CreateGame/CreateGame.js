@@ -32,7 +32,7 @@ export function CreateGame({ socket }) {
 
   return (
     <Fragment>
-      <Button variant="outlined" color="neutral" onClick={() => setOpen(true)}>
+      <Button color="neutral" onClick={() => setOpen(true)}>
         Create game
       </Button>
 

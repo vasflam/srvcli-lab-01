@@ -71,6 +71,19 @@ export class GamesService {
   }
 
   /**
+   * Find all user's completed games
+   */
+  async findUserGames(uid: number): Promise<Game[]> {
+    const user = {id: uid};
+    return this.gamesRepository.find({
+      where: [
+        { owner: user, status: GameStatus.COMPLETED },
+        { opponent: user, status: GameStatus.COMPLETED },
+      ],
+    });
+  }
+
+  /**
    * Check if user is in game
    */
   async userHasStartedGame(id: number): Promise<boolean> {
@@ -248,5 +261,15 @@ export class GamesService {
     }
 
     return await this.findGameById(game.id);
+  }
+
+  async getUserStats(uid: number) {
+    const games = await this.findUserGames(uid);
+    return {
+      total: games.length,
+      wins: games.filter(game => game.winner?.id == uid).length,
+      loses: games.filter(game => game.winner?.id != uid).length,
+      draws: games.filter(game => game.winner == null).length,
+    };
   }
 }

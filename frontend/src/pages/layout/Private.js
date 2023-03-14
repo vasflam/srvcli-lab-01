@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
-import Sheet from '@mui/joy/Sheet';
+import Grid from '@mui/joy/Grid';
 import Avatar from '@mui/joy/Avatar';
 import { useAuth, useSocket, useGame, SocketProvider, GameProvider } from '../../hooks';
 
@@ -33,9 +33,6 @@ export function PrivateLayout() {
     <SocketProvider>
       <GameProvider>
         <PrivateLayoutWrapper>
-          <Sheet>
-            <Avatar>{user.username}</Avatar>
-          </Sheet>
           <Outlet />
         </PrivateLayoutWrapper>
       </GameProvider>

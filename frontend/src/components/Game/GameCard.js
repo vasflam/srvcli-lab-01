@@ -5,7 +5,7 @@ import Typography from '@mui/joy/Typography';
 import Divider from '@mui/joy/Divider';
 import Button from '@mui/joy/Button';
 
-export function Game({ game, user, handleJoin }) {
+export function GameCard({ game, user, handleJoin }) {
 
   return (
     <Card

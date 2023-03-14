@@ -12,6 +12,7 @@ export function GameProvider({ children }) {
   const { user } = useAuth();
   const { socket } = useSocket();
   const [game, setGame] = useState();
+  const [stats, setStats] = useState({});
 
   useEffect(() => {
     if (!socket) {
@@ -20,10 +21,11 @@ export function GameProvider({ children }) {
 
     // First after socket connection
     socket.on('init', (state) => {
-      const { game } = state;
+      const { game, stats } = state;
       if (game) {
         setGame(game);
       }
+      setStats(stats);
     });
 
     socket.on('createGame', (game) => {
@@ -33,11 +35,16 @@ export function GameProvider({ children }) {
     socket.on('startGame', (game) => {
       setGame(game);
     });
+
+    socket.on('gameStats', (stats) => {
+      setStats(stats);
+    });
   }, [socket]);
 
   const value = {
     user,
     socket,
+    stats,
     game,
     setGame,
   };

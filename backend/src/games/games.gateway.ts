@@ -43,10 +43,15 @@ export class GamesGateway implements OnGatewayConnection {
       client.disconnect();
     }
 
-    const game = await this.gamesService.findUserGame(user.id);
+    const [game, stats] = await Promise.all([
+      this.gamesService.findUserGame(user.id),
+      this.gamesService.getUserStats(user.id),
+    ]);
+
 
     client.emit('init', {
       game,
+      stats,
     });
   }
 
@@ -58,6 +63,16 @@ export class GamesGateway implements OnGatewayConnection {
       socket.broadcast.emit('hideGame', canceled);
     }
     */
+  }
+
+  @SubscribeMessage('gameStats')
+  async gameStats(@ConnectedSocket() socket: any): Promise<any> {
+    const user = await this.getUserFromSocket(socket);
+    const stats = await this.gamesService.getUserStats(user.id);
+    return {
+      event: 'gameStats',
+      data: stats,
+    }
   }
 
   @SubscribeMessage('listGames')
@@ -151,7 +166,9 @@ export class GamesGateway implements OnGatewayConnection {
         const id = this.authService.getUserIdFromToken(socket.handshake?.auth?.token);
         const participants = game.getParticipants();
         if (id && participants.includes(id)) {
+          const stats = await this.gamesService.getUserStats(id);
           promises.push(socket.emit('gameMove', game));
+          promises.push(socket.emit('gameStats', stats));
         }
       }
       await Promise.all(promises);
