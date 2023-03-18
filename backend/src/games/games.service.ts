@@ -260,6 +260,11 @@ export class GamesService {
       await this.gamesRepository.save(game);
     }
 
+    if (game.size*game.size == moves.length) {
+      game.status = GameStatus.COMPLETED;
+      await this.gamesRepository.save(game);
+    }
+
     return await this.findGameById(game.id);
   }
 

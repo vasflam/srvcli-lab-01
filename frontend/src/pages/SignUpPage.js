@@ -1,3 +1,5 @@
+import { useState } from 'react';
+import { Navigate } from 'react-router-dom';
 import Sheet from '@mui/joy/Sheet';
 import Typography from '@mui/joy/Typography';
 import FormControl from '@mui/joy/FormControl';
@@ -5,8 +7,22 @@ import FormLabel from '@mui/joy/FormLabel';
 import Input from '@mui/joy/Input';
 import Button from '@mui/joy/Button';
 import Link from '@mui/joy/Link';
+import { useAxios } from '../hooks';
 
 export function SignUpPage() {
+  const axios = useAxios();
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [user, setUser] = useState(null);
+
+  const doSignup = async () => {
+    const response = await axios.post('/users/create', {
+      username,
+      password,
+    });
+    setUser(response.data);
+  };
+
   return (
     <Sheet
       sx={{
@@ -35,6 +51,9 @@ export function SignUpPage() {
           name="username"
           type="text"
           placeholder="Username"
+          onChange={(event) => {
+            setUsername(event.target.value);
+          }}
         />
       </FormControl>
       <FormControl>
@@ -43,10 +62,13 @@ export function SignUpPage() {
           name="password"
           type="password"
           placeholder="Password"
+          onChange={(event) => {
+            setPassword(event.target.value);
+          }}
         />
       </FormControl>
 
-      <Button sx={{ mt: 1 /* margin top */ }}>Sign up</Button>
+      <Button sx={{ mt: 1 /* margin top */ }} onClick={doSignup}>Sign up</Button>
       <Typography
         endDecorator={<Link href="/login">Log in</Link>}
         fontSize="sm"
@@ -54,6 +76,7 @@ export function SignUpPage() {
       >
         Already have an account?
       </Typography>
+      { user && <Navigate to="/login" />}
     </Sheet>
   )
 }

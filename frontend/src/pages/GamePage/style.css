@@ -17,6 +17,10 @@
 .game-board .game-board-cell.winned-move {
   background-color: rgba(98, 219, 46, 0.5);
 }
+
+.game-board.is-looser .game-board-cell.winned-move {
+  background-color: red !important;
+}
 /*
 .game-board.your-turn.my-symbol-x .game-board-cell:hover:after,
 .game-board .filled-by-x:after {

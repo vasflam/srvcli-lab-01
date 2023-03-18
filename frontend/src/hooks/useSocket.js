@@ -1,6 +1,7 @@
 import { useState, useEffect, useContext, createContext } from 'react';
 import { io } from 'socket.io-client';
 import { useAuth } from './useAuth';
+import { config } from '../config';
 
 const SocketContext = createContext();
 
@@ -17,7 +18,7 @@ export function SocketProvider({ children }) {
       return;
     }
 
-    const socket = io('ws://127.0.0.1:3000/games', {
+    const socket = io(`${config.wsUrl}/games`, {
       transports: ['websocket'],
       auth: {
         token: user.access_token,

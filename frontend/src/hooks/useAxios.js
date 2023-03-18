@@ -1,7 +1,8 @@
 import axios from 'axios';
+import { config } from '../config';
 
 const api = axios.create({
-  baseURL: 'http://127.0.0.1:3000',
+  baseURL: `${config.apiUrl}`,
 });
 
 export function useAxios() {

@@ -5,6 +5,7 @@ import Typography from '@mui/joy/Typography';
 import List from '@mui/joy/List';
 import ListItem from '@mui/joy/ListItem';
 import ListItemContent from '@mui/joy/ListItemContent';
+import Link from '@mui/joy/Link';
 import { useGame } from '../../hooks';
 
 function StatsData({ title, value }) {
@@ -27,11 +28,12 @@ export function GameStats({ children }) {
         borderRadius: 'sm',
         boxShadow: 'lg',
       }}>
-      <Typography level="h5">
+      <Typography level="h5" sx={{ display: 'flex' }}>
         Welcome
         <Typography level="h5" color="primary" sx={{ml:1}}>
           {user.username}
         </Typography>
+        <Link sx={{marginLeft: 'auto' }} href="/logout">Log out</Link>
       </Typography>
       <StatsData title="Total games" value={stats.total}/>
       <StatsData title="Wins" value={stats.wins}/>

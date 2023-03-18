@@ -2,16 +2,17 @@ import Sheet from '@mui/joy/Sheet';
 import Typography from '@mui/joy/Typography';
 import CircularProgress from '@mui/joy/CircularProgress';
 
-function GameComplete({game, completed, user}) {
-  const isWinner = game.winner.id === user.id;
-  const color = isWinner ? 'success' : 'danger';
+function GameComplete({game, user}) {
+  const isDraw = game.winner === null;
+  const isWinner = !isDraw && game.winner?.id === user.id;
+  let color = isWinner ? 'success' : 'danger';
   return (
     <>
       <Typography color="neutral" textAlign="center">
         Game is complete.
       </Typography>
       <Typography color={color} textAlign="center" sx={{ mb: 4 }} fontWeight="lg">
-        {isWinner ? 'You WIN' : 'You LOOSE'}
+        {isDraw ? 'DRAW' : isWinner ? 'You WIN' : 'You LOOSE'}
       </Typography>
     </>
   );

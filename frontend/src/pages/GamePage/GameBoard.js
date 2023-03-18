@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useGame } from '../../hooks/useGame';
 import './style.css';
 
 /**
@@ -98,7 +99,9 @@ function GameBoardRow({ moves, winnedMoves, completed, makeMove, canMove, mySymb
  * GameBoard
  */
 export function GameBoard(props) {
+  const { user } = useGame();
   const { game, moves, completed, canMove, isFirst, handleMove } = props;
+  const isWinner = game.winner?.id == user.id;
   const { winnedMoves } = game;
   const data = generateBoard(game.first, game.size, moves);
   const mySymbol = isFirst ? 'x' : 'o';
@@ -117,6 +120,7 @@ export function GameBoard(props) {
       mySymbol,
       completed,
       winnedMoves,
+      isWinner,
     };
     return <GameBoardRow {...props} />
   });
@@ -127,6 +131,7 @@ export function GameBoard(props) {
     isFirst ? 'is-first': '',
     `my-symbol-${mySymbol}`,
     completed ? 'game-completed' : '',
+    isWinner ? 'is-winner' : 'is-looser',
   ].join(' ');
 
   return (
