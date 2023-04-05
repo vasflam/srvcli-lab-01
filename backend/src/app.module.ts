@@ -8,6 +8,7 @@ import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { GamesModule } from './games/games.module';
 import { JwtAuthGuard } from './auth/jwt-auth.guard';
+import { ChatModule } from './chat/chat.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { JwtAuthGuard } from './auth/jwt-auth.guard';
     UsersModule,
     AuthModule,
     GamesModule,
+    ChatModule,
   ],
   controllers: [AppController],
   providers: [

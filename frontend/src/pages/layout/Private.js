@@ -2,7 +2,15 @@ import { useEffect } from 'react';
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
 import Grid from '@mui/joy/Grid';
 import Avatar from '@mui/joy/Avatar';
-import { useAuth, useSocket, useGame, SocketProvider, GameProvider } from '../../hooks';
+import {
+  useAuth,
+  useSocket,
+  useGame,
+  SocketProvider,
+  GameProvider,
+  useChat,
+  ChatProvider,
+} from '../../hooks';
 
 /**
  * We must redirect user to /game if he is in game
@@ -32,9 +40,11 @@ export function PrivateLayout() {
   return (
     <SocketProvider>
       <GameProvider>
-        <PrivateLayoutWrapper>
-          <Outlet />
-        </PrivateLayoutWrapper>
+        <ChatProvider>
+          <PrivateLayoutWrapper>
+            <Outlet />
+          </PrivateLayoutWrapper>
+        </ChatProvider>
       </GameProvider>
     </SocketProvider>
   );

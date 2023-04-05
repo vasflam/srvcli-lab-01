@@ -9,6 +9,7 @@ import Typography from '@mui/joy/Typography';
 import { useGame } from '../hooks';
 import { GameCard, GameStats } from '../components/Game';
 import { CreateGame } from '../components/CreateGame';
+import { Chat } from '../components/Chat';
 
 export function HomePage() {
   const { user, socket, game, setGame } = useGame();
@@ -55,7 +56,7 @@ export function HomePage() {
   });
 
   return (
-    <Grid container spacing={2} sx={{ flexGrow: 1}}>
+    <Grid container spacing={2} sx={{ flexGrow: 1, height: '100vh' }}>
       <Grid xs={8} md={8}>
         <Typography level="h4" component="h1">Games:</Typography>
         <List>{list}</List>
@@ -65,6 +66,7 @@ export function HomePage() {
           <CreateGame {...{socket, game, setGame}} />
         </GameStats>
       </Grid>
+      <Chat />
     </Grid>
   );
 }

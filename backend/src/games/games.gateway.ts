@@ -27,14 +27,8 @@ export class GamesGateway implements OnGatewayConnection {
     private gamesService: GamesService
   ) {}
 
-  async getUserFromSocket(socket: Socket) {
-    const token = socket.handshake?.auth?.token;
-    const user = await this.authService.validateToken(token);
-    return user;
-  }
-
   async handleConnection(client: Socket) {
-    const user = await this.getUserFromSocket(client);
+    const user = await this.authService.getUserFromSocket(client);
     if (!user) {
       client.emit('exception', {
         error: 400,
@@ -56,7 +50,7 @@ export class GamesGateway implements OnGatewayConnection {
   }
 
   async handleDisconnect(socket: Socket) {
-    const user = await this.getUserFromSocket(socket);
+    const user = await this.authService.getUserFromSocket(socket);
     /*
     const canceled = await this.gamesService.cancelGameForUser(user.id);
     if (canceled) {
@@ -67,7 +61,7 @@ export class GamesGateway implements OnGatewayConnection {
 
   @SubscribeMessage('gameStats')
   async gameStats(@ConnectedSocket() socket: any): Promise<any> {
-    const user = await this.getUserFromSocket(socket);
+    const user = await this.authService.getUserFromSocket(socket);
     const stats = await this.gamesService.getUserStats(user.id);
     return {
       event: 'gameStats',
@@ -86,7 +80,7 @@ export class GamesGateway implements OnGatewayConnection {
 
   @SubscribeMessage('createGame')
   async createGame(@MessageBody() data: CreateGameRequest, @ConnectedSocket() socket: any): Promise<any> {
-    const user = await this.getUserFromSocket(socket);
+    const user = await this.authService.getUserFromSocket(socket);
     try {
       const game = await this.gamesService.createGame(user, data);
       const event = {
@@ -114,7 +108,7 @@ export class GamesGateway implements OnGatewayConnection {
 
   @SubscribeMessage('cancelGame')
   async cancelGame(@ConnectedSocket() socket: Socket): Promise<any> {
-    const user = await this.getUserFromSocket(socket);
+    const user = await this.authService.getUserFromSocket(socket);
     const canceled = await this.gamesService.cancelGame(user.id);
     const games = await this.gamesService.findCreatedGames();
     socket.broadcast.emit('listGames', games);
@@ -129,7 +123,7 @@ export class GamesGateway implements OnGatewayConnection {
 
   @SubscribeMessage('joinGame')
   async joinGame(@MessageBody() msg: any, @ConnectedSocket() socket: Socket): Promise<any> {
-    const user = await this.getUserFromSocket(socket);
+    const user = await this.authService.getUserFromSocket(socket);
     try {
       const game = await this.gamesService.joinGame(msg.id, user.id);
       const sockets = (this.server.sockets as any).values();
@@ -156,7 +150,7 @@ export class GamesGateway implements OnGatewayConnection {
 
   @SubscribeMessage('gameMove')
   async turn(@MessageBody() msg: any, @ConnectedSocket() socket: Socket): Promise<any> {
-    const user = await this.getUserFromSocket(socket);
+    const user = await this.authService.getUserFromSocket(socket);
     try {
       const {x, y} = msg;
       const game = await this.gamesService.makeMove(user.id, x, y);

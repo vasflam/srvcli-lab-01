@@ -1,6 +1,7 @@
 import * as bcrypt from 'bcrypt';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { Socket } from 'socket.io';
 import { UsersService } from '../users/users.service';
 import { User } from '../users/user.entity';
 
@@ -58,5 +59,10 @@ export class AuthService {
         username: user.username,
       }),
     };
+  }
+
+  async getUserFromSocket(socket: Socket) {
+    const token = socket.handshake?.auth?.token;
+    return await this.validateToken(token);
   }
 }
