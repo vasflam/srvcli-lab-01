@@ -12,7 +12,7 @@ export class ChatService {
   ) {}
 
   async getLastMessages(uid: number, take: number): Promise<Chat[]> {
-    return this.chatRepository.find({
+    const messages = await this.chatRepository.find({
       order: { id: 'DESC' },
       take,
       where: [
@@ -29,6 +29,8 @@ export class ChatService {
         },
       ],
     });
+
+    return messages.reverse();
   }
 
   async createMessage(input: CreateMessageRequest): Promise<Chat> {
@@ -43,6 +45,7 @@ export class ChatService {
       data['to'] = {id: to};
     }
     const model = this.chatRepository.create(data);
-    return this.chatRepository.save(model);
+    const saved = await this.chatRepository.save(model);
+    return this.chatRepository.findOneBy({id: saved.id});
   }
 }

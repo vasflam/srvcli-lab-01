@@ -43,7 +43,15 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     const users = this.getOnlineUsers().map(u => ({
       id: u.id,
       username: u.username,
-    }));
+    })).sort((a, b) => {
+      const u1 = a.username.toUpperCase();
+      const u2 = b.username.toUpperCase();
+      if (u1 === u2) {
+        return 0;
+      }
+      return u1 < u2 ? -1 : 1;
+    });
+    console.log(users);
     const messages = await this.chatService.getLastMessages(user.id, 100);
     socket.emit('init', {
       users,
@@ -73,24 +81,24 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   /**
    */
   @SubscribeMessage('message')
-  async createMessage(@MessageBody() data: CreateMessageRequest, @ConnectedSocket() socket: Socket): Promise<Chat> {
+  async sendMessage(@MessageBody() data: CreateMessageRequest, @ConnectedSocket() socket: Socket) {
     const user = await this.authService.getUserFromSocket(socket);
     data['from'] = user.id;
     const message = await this.chatService.createMessage(data);
 
     const online = this.getOnlineUsers();
-    if (message.isPrivate) {
+    if (message.isPrivate()) {
       // find recipients
       online.filter(u => [message.to, message.from].includes(u.id)) .map(u => {
         return u.socket.emit('message', message);
       });
     } else {
+      /*
       online.filter(u => ![message.to, message.from].includes(u.id)).map(u => {
         return u.socket.emit('message', message);
       });
-      //socket.broadcast.emit('message', message);
+      */
+      this.server.emit('message', message);
     }
-
-    return message;
   }
 }

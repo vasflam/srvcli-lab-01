@@ -1,18 +1,26 @@
+import { forwardRef, useRef, useState } from 'react';
 import Grid from '@mui/joy/Grid';
-import Box from '@mui/joy/Box';
+import Sheet from '@mui/joy/Sheet';
+import Divider from '@mui/joy/Divider';
 import { ChatMessages } from './ChatMessages';
 import { ChatUsers } from './ChatUsers';
+import { ChatProvider, useChat } from '../../hooks';
+import { ChatMessageInput } from './ChatMessageInput';
 
 export function Chat() {
+  const ref = useRef();
+
   return (
-    <Grid sx={{ display: 'flex', flexDirection: 'row', width: '100%' }}>
-      <Box sx={{ display: 'flex', flexGrow: 1, }}>
-        <ChatMessages />
-      </Box>
-      <Box sx={{ display: 'flex', order: 1, justifyContent: 'right'}}>
-        <ChatUsers />
-      </Box>
-    </Grid>
+    <ChatProvider>
+      <Grid sx={{ display: 'flex', flexDirection: 'column', width: '100%', flexGrow: 1, }}>
+        <Divider sx={{ width: '100%', mb: 1 }} />
+        <Sheet sx={{ display: 'flex', flexDirection: 'row', flexGrow: 1, }}>
+          <ChatMessages msgBoxRef={ref} />
+          <ChatUsers msgBoxRef={ref} />
+        </Sheet>
+        <ChatMessageInput ref={ref} />
+      </Grid>
+    </ChatProvider>
   );
 }
 

@@ -11,28 +11,34 @@ export function useSocket() {
 
 export function SocketProvider({ children }) {
   const { user } = useAuth();
-  const [socket, setSocket] = useState();
+  const [gameSocket, setGameSocket] = useState();
+  const [chatSocket, setChatSocket] = useState();
 
   useEffect(() => {
     if (!user) {
       return;
     }
 
-    const socket = io(`${config.wsUrl}/games`, {
+    const opts = {
       transports: ['websocket'],
       auth: {
         token: user.access_token,
       },
-    });
+    };
+    const gameSocket = io(`${config.wsUrl}/games`, opts);
+    const chatSocket = io(`${config.wsUrl}/chat`, opts);
 
-    setSocket(socket);
+    setGameSocket(gameSocket);
+    setChatSocket(chatSocket);
     return () => {
-      socket.close();
+      gameSocket.close();
+      chatSocket.close();
     };
   }, []);
 
   const value = {
-    socket,
+    gameSocket,
+    chatSocket,
   };
 
   return (

@@ -8,8 +8,6 @@ import {
   useGame,
   SocketProvider,
   GameProvider,
-  useChat,
-  ChatProvider,
 } from '../../hooks';
 
 /**
@@ -40,11 +38,9 @@ export function PrivateLayout() {
   return (
     <SocketProvider>
       <GameProvider>
-        <ChatProvider>
           <PrivateLayoutWrapper>
             <Outlet />
           </PrivateLayoutWrapper>
-        </ChatProvider>
       </GameProvider>
     </SocketProvider>
   );

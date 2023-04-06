@@ -10,12 +10,13 @@ export function useGame() {
 
 export function GameProvider({ children }) {
   const { user } = useAuth();
-  const { socket } = useSocket();
+  const { gameSocket } = useSocket();
   const [game, setGame] = useState();
   const [stats, setStats] = useState({});
+  const socket = gameSocket;
 
   useEffect(() => {
-    if (!socket) {
+    if (!user || !socket) {
       return;
     }
 
