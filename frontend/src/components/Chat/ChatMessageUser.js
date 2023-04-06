@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react';
+import { useEffect } from 'react';
 import Typography from '@mui/joy/Typography';
 import { useChat } from '../../hooks';
 
@@ -6,7 +6,7 @@ export function ChatMessageUser(props) {
   const { user, state, dispatch } = useChat();
   const { selectedUser } = state;
   const { noclick, msgBoxRef } = props;
-  const isMe = user?.id == props.user?.id;
+  const isMe = user?.id === props.user?.id;
 
   useEffect(() => {
     document.addEventListener('keydown', handleEscape);
@@ -17,7 +17,7 @@ export function ChatMessageUser(props) {
   }, [selectedUser]);
 
   const handleEscape = (event) => {
-    if (msgBoxRef?.current?.lastElementChild == document.activeElement) {
+    if (msgBoxRef?.current?.lastElementChild === document.activeElement) {
       if (event.keyCode === 27) {
         dispatch({
           type: 'selectedUser',

@@ -1,4 +1,4 @@
 export const config = {
-  wsUrl: 'http://127.0.0.1:3000',
-  apiUrl: 'http://127.0.0.1:3000',
+  wsUrl: process.env.REACT_APP_WS_URL,
+  apiUrl: process.env.REACT_APP_API_URL,
 };

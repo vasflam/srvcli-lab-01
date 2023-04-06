@@ -3,16 +3,9 @@ import {
   BrowserRouter,
   Routes,
   Route,
-  Link,
-  Navigate,
-  Outlet,
-  Redirect,
-  useHistory,
-  useLocation
 } from "react-router-dom";
-import { CssVarsProvider, useColorScheme } from '@mui/joy/styles';
-import Sheet from '@mui/joy/Sheet';
-import { useAuth, AuthProvider } from './hooks';
+import { CssVarsProvider } from '@mui/joy/styles';
+import { AuthProvider } from './hooks';
 import {
   PublicLayout,
   PrivateLayout,

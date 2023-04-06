@@ -1,10 +1,10 @@
-import { forwardRef, useRef, useState } from 'react';
+import { useRef } from 'react';
 import Grid from '@mui/joy/Grid';
 import Sheet from '@mui/joy/Sheet';
 import Divider from '@mui/joy/Divider';
 import { ChatMessages } from './ChatMessages';
 import { ChatUsers } from './ChatUsers';
-import { ChatProvider, useChat } from '../../hooks';
+import { ChatProvider } from '../../hooks';
 import { ChatMessageInput } from './ChatMessageInput';
 
 export function Chat() {

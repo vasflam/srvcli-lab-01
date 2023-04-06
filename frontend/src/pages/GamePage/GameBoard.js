@@ -19,7 +19,7 @@ const generateBoard = (firstUser, size, moves) => {
     const {x, y, user_id} = move;
     data[y][x] = {
       ...move,
-      sym: firstUser == move.user_id ? 'x' : 'o',
+      sym: firstUser === move.user_id ? 'x' : 'o',
     };
   });
 
@@ -35,27 +35,27 @@ function GameBoardCell({ move, completed, makeMove, canMove, mySymbol, isWinnedM
       return;
     }
 
-    if (canMove && symbol == '') {
+    if (canMove && symbol === '') {
       setSymbol(mySymbol);
       makeMove(x, y);
     }
   };
 
   const onMouseOver = (event) => {
-    if (canMove && symbol == '') {
+    if (canMove && symbol === '') {
       setBeforeHoverSymbol(mySymbol);
     }
   };
 
   const onMouseOut = (event) => {
-    if (beforeHoverSymbol != '') {
+    if (beforeHoverSymbol !== '') {
       setBeforeHoverSymbol('');
     }
   };
 
   const className = [
     'game-board-cell',
-    symbol != '' ? 'filled' : '',
+    symbol !== '' ? 'filled' : '',
     isWinnedMove ? 'winned-move' : '',
   ].join(' ');
 
@@ -68,7 +68,7 @@ function GameBoardCell({ move, completed, makeMove, canMove, mySymbol, isWinnedM
       onMouseOver={onMouseOver}
       onMouseOut={onMouseOut}
     >
-      {beforeHoverSymbol != '' ? beforeHoverSymbol : symbol}
+      {beforeHoverSymbol !== '' ? beforeHoverSymbol : symbol}
     </td>
   );
 }
@@ -77,9 +77,9 @@ function GameBoardRow({ moves, winnedMoves, completed, makeMove, canMove, mySymb
   return (
     <tr className="game-board-row" >
       {moves.map((move) => {
-        const isWinnedMove = !!winnedMoves.filter(id => id == move.id).length;
+        const isWinnedMove = !!winnedMoves.filter(id => id === move.id).length;
         const {x, y, sym, user_id} = move;
-        const key = sym == '' ? `cell-${y}-${x}` : `cell-${y}-${x}-${user_id}`;
+        const key = sym === '' ? `cell-${y}-${x}` : `cell-${y}-${x}-${user_id}`;
         const props = {
           move,
           makeMove,
@@ -101,7 +101,7 @@ function GameBoardRow({ moves, winnedMoves, completed, makeMove, canMove, mySymb
 export function GameBoard(props) {
   const { user } = useGame();
   const { game, moves, completed, canMove, isFirst, handleMove } = props;
-  const isWinner = game.winner?.id == user.id;
+  const isWinner = game.winner?.id === user.id;
   const { winnedMoves } = game;
   const data = generateBoard(game.first, game.size, moves);
   const mySymbol = isFirst ? 'x' : 'o';

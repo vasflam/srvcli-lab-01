@@ -1,8 +1,6 @@
-import { useReducer, useState, useEffect, useContext, createContext } from 'react';
-import { io } from 'socket.io-client';
+import { useReducer, useEffect, useContext, createContext } from 'react';
 import { useAuth } from './useAuth';
 import { useSocket } from './useSocket';
-import { config } from '../config';
 
 const ChatContext = createContext();
 
@@ -13,7 +11,7 @@ export function useChat() {
 const sortUsersAlpha = (a, b) => {
   const u1 = a.username.toUpperCase();
   const u2 = b.username.toUpperCase();
-  if (u1 == u2) {
+  if (u1 === u2) {
     return 0;
   }
   return u1 < u2 ? -1 : 1;
@@ -22,12 +20,12 @@ const sortUsersAlpha = (a, b) => {
 function reducer(state, action) {
   const { type } = action;
 
-  if (type == 'init') {
-    const { users, messages, chat } = action;
+  if (type === 'init') {
+    const { users, messages } = action;
     return { ...state, users, messages }
   }
 
-  if (type == 'addUser') {
+  if (type === 'addUser') {
     const { user } = action;
     const { users } = state;
     users.push(user);
@@ -35,19 +33,19 @@ function reducer(state, action) {
     return { ...state, users: users.sort(sortUsersAlpha) };
   }
 
-  if (type == 'removeUser') {
+  if (type === 'removeUser') {
     const { user } = action;
-    const users = state.users.filter(u => u.id != user.id).sort(sortUsersAlpha);
+    const users = state.users.filter(u => u.id !== user.id).sort(sortUsersAlpha);
     return { ...state, users };
   }
 
-  if (type == 'message') {
+  if (type === 'message') {
     const { message } = action;
     const messages = [ ...state.messages, message ];
     return { ...state, messages };
   }
 
-  if (type == 'selectedUser') {
+  if (type === 'selectedUser') {
     const { selectedUser } = action;
     return { ...state, selectedUser };
   }

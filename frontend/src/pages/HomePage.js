@@ -1,7 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
-import { io } from 'socket.io-client';
-import Button from '@mui/joy/Button';
-import Sheet from '@mui/joy/Sheet';
+import { useState, useEffect } from 'react';
 import List from '@mui/joy/List';
 import ListItem from '@mui/joy/ListItem';
 import Grid from '@mui/joy/Grid';
@@ -36,10 +33,6 @@ export function HomePage() {
       socket.off('joinGame');
     };
   }, [socket, game]);
-
-  const refresh = () => {
-    socket.emit("listGames");
-  };
 
   const handleJoin = (game) => {
     socket.emit('joinGame', {

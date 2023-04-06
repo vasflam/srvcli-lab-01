@@ -1,4 +1,4 @@
-import { useRef, forwardRef, useState } from 'react';
+import { forwardRef, useState } from 'react';
 import Input from '@mui/joy/Input';
 import { useChat } from '../../hooks';
 import { ChatMessageUser } from './ChatMessageUser';
@@ -9,7 +9,7 @@ const ChatMessageInput = forwardRef((props, ref) => {
   const [message, setMessage] = useState();
 
   const sendMessage = async (event) => {
-    if (event.key == 'Enter') {
+    if (event.key === 'Enter') {
       socket.emit('message', {
         to: selectedUser ? selectedUser.id : null,
         isPrivate: false,

@@ -10,7 +10,7 @@ import { useAuth, useAxios } from '../hooks';
 
 export function LoginPage() {
   const axios = useAxios();
-  const {handleLogin, user} = useAuth();
+  const {handleLogin} = useAuth();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 

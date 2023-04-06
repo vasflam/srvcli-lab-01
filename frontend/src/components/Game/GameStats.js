@@ -1,10 +1,5 @@
-import { useState } from 'react';
-import { styled } from '@mui/joy/styles';
 import Sheet from '@mui/joy/Sheet';
 import Typography from '@mui/joy/Typography';
-import List from '@mui/joy/List';
-import ListItem from '@mui/joy/ListItem';
-import ListItemContent from '@mui/joy/ListItemContent';
 import Link from '@mui/joy/Link';
 import { useGame } from '../../hooks';
 
@@ -18,7 +13,7 @@ function StatsData({ title, value }) {
 }
 
 export function GameStats({ children }) {
-  const { user, socket, game, stats } = useGame();
+  const { user, stats } = useGame();
   return (
     <Sheet
       sx={{

@@ -1,14 +1,11 @@
-import { useState, useRef, createRef, useEffect } from 'react';
+import { useRef, useEffect } from 'react';
 import Sheet from '@mui/joy/Sheet';
-import Input from '@mui/joy/Input';
-import List from '@mui/joy/List';
-import ListItem from '@mui/joy/ListItem';
 import Typography from '@mui/joy/Typography';
 import { useChat } from '../../hooks/useChat';
 import { ChatMessageUser } from './ChatMessageUser';
 
 const ChatMessage = ({ me, message, msgBoxRef }) => {
-  const isMy = me?.id == message.to?.id;
+  const isMy = me?.id === message.to?.id;
   const sx = {
     display: 'block',
     width: '100%',
@@ -32,8 +29,8 @@ const ChatMessage = ({ me, message, msgBoxRef }) => {
 };
 
 export function ChatMessages({ msgBoxRef }) {
-  const { user, socket, state, dispatch } = useChat();
-  const { messages, selectedUser } = state;
+  const { user, state } = useChat();
+  const { messages } = state;
   const ref = useRef(null);
 
   useEffect(() => {

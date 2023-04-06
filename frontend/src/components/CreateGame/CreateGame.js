@@ -1,20 +1,15 @@
 import { Fragment, useState } from 'react';
-import { Navigate } from 'react-router-dom';
 import Button from '@mui/joy/Button';
 import Modal from '@mui/joy/Modal';
 import ModalClose from '@mui/joy/ModalClose';
-import Typography from '@mui/joy/Typography';
 import Sheet from '@mui/joy/Sheet';
-import FormControl from '@mui/joy/FormControl';
-import FormLabel from '@mui/joy/FormLabel';
-import Input from '@mui/joy/Input';
 import { CreateForm } from './CreateForm';
 
 export function CreateGame({ socket }) {
   const [open, setOpen] = useState(false);
 
   const onClose = async (event, reason) => {
-    if (reason == 'backdropClick') {
+    if (reason === 'backdropClick') {
       return;
     }
     setOpen(false);
