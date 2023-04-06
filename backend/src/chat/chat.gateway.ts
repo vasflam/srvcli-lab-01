@@ -51,7 +51,6 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
       }
       return u1 < u2 ? -1 : 1;
     });
-    console.log(users);
     const messages = await this.chatService.getLastMessages(user.id, 100);
     socket.emit('init', {
       users,
@@ -85,6 +84,8 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     const user = await this.authService.getUserFromSocket(socket);
     data['from'] = user.id;
     const message = await this.chatService.createMessage(data);
+    delete message.from.password;
+    delete message.to?.password;
 
     const online = this.getOnlineUsers();
     if (message.isPrivate()) {
